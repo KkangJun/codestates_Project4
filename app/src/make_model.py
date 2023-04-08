@@ -13,6 +13,7 @@ from tensorflow.keras.layers import Dense, Dropout, Input, BatchNormalization, A
 # line 13(2호선), line 14(2호선), line 15(5호선)
 
 def dataset_load():
+  '''DB에서 Dataset 불러오기'''
   conn = psycopg2.connect(
     host='localhost',
     dbname='train_db',
@@ -34,6 +35,7 @@ def dataset_load():
   return dataset
 
 def data_preprocessing(dataset):
+  '''학습을 위한 데이터 전처리'''
   dataset = dataset.replace({'평일':1, '토요일':2, '일요일':3, '상선':1, '하선':2, '내선':3, '외선':4})
 
   x_train = dataset.drop('congestion', axis=1)
@@ -42,6 +44,7 @@ def data_preprocessing(dataset):
   return x_train, y_train
 
 def make_model(x_train):
+  '''간단한 모델 제작'''
   inputs = Input(shape=(x_train.shape[1]))
   
   layer = Dense(256, kernel_initializer='he_normal')(inputs)
@@ -67,6 +70,7 @@ def make_model(x_train):
   return model
 
 def model_update():
+  '''Model Update 함수'''
   dataset = dataset_load()
   
   x_train, y_train = data_preprocessing(dataset)
