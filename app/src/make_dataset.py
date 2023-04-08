@@ -1,6 +1,4 @@
 import psycopg2
-import os
-import csv
 import requests
 import json
 import re
@@ -27,7 +25,7 @@ def db_init():
     line  INTEGER   NOT NULL,
     st_code   INTEGER   NOT NULL,
     st_name   VARCHAR(50)   NOT NULL,
-    cls   VARCHAR(10)   NOT NULL,
+    clss   VARCHAR(10)   NOT NULL,
     time  INTEGER,
     congestion  FLOAT
   );''')
@@ -60,7 +58,7 @@ def _cong_dataset(path, conn, num):
     st_name = data['역명']
     cls = data['구분']
     
-    for t, c in list(cong_data['data'][0].items())[:-6]:
+    for t, c in list(data.items())[:-6]:
       times = int(re.sub(r'[^0-9]', '', t))
       cong = float(c)
       cur.execute(f'''INSERT INTO train_cong VALUES
@@ -91,5 +89,5 @@ def cong_dataset_update():
   
   conn.commit()
   conn.close()
-  print('update completed')
+  print('dataset update completed')
   return
