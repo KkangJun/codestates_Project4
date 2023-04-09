@@ -1,15 +1,15 @@
 from flask import Flask
 from apscheduler.schedulers.background import BackgroundScheduler
-from app.src.make_dataset import cong_dataset_update
-from app.src.make_model import model_update
+from cong_app.src.make_dataset import cong_dataset_update
+from cong_app.src.make_model import model_update
 from datetime import datetime, date
 
 def create_app():
   app = Flask(__name__)
-  # app.config['MAINTENANCE_MODE'] = False # 점검 상태 변수 선언
+  # cong_app.config['MAINTENANCE_MODE'] = False # 점검 상태 변수 선언
   
-  from app.pages.main_page import main_bp
-  from app.pages.result_page import result_bp
+  from cong_app.pages.main_page import main_bp
+  from cong_app.pages.result_page import result_bp
   
   app.register_blueprint(main_bp)
   app.register_blueprint(result_bp, url_prefix='/result')
@@ -34,7 +34,8 @@ def create_app():
   # 2년 주기로 두번 실행
 
   schedul.start()
+  return app
 
 if __name__ == "__main__":
   app = create_app()
-  app.run()
+  app.run(debug=True)

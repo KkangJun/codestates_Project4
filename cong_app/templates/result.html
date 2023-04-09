@@ -1,0 +1,26 @@
+{% extends 'first.html' %}
+{% block title %}예측 결과{% endblock %}
+
+{% block head%}
+  {{ super() }}
+{% endblock%}
+
+{% block results %}
+  <br><br><br>
+  <h2>{{ week }} 경로 혼잡도 예측 결과</h2>
+  {% for row in preds%}
+    <p>
+      {{ row['name'] }}<br>
+      {{ row['line'] }}호선<br>
+      {{ row['time'] }}
+    </p>
+    <p>
+      혼잡도 : {{ row['pred'] }}
+    </p>
+  {% endfor %}
+  <p>
+    {{ last_st['name'] }}<br>
+    {{ last_st['line'] }}호선<br>
+    {{ last_st['time'] }}
+  </p>
+{% endblock %}

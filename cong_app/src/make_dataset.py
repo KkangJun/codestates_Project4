@@ -7,7 +7,7 @@ import time
 def db_init():
   '''DB 연결 및 초기화'''
   conn = psycopg2.connect(
-    host='localhost',
+    host='192.168.35.23',
     dbname='train_db',
     user='project4',
     password='abcdqwer',
