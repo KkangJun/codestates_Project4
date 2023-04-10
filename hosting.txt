@@ -1,0 +1,4 @@
+1. gunicorn --bind unix:/Users/kkangjun/Desktop/gunicorn.sock wsgi:app
+
+2. brew services start nginx
+(nginx.conf 수정시 : nginx -t 이후 brew services reload nginx)
