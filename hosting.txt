@@ -1,4 +1,19 @@
-1. gunicorn --bind unix:/Users/kkangjun/Desktop/gunicorn.sock wsgi:app
+1. gunicorn --bind unix:/Users/kkangjun/Desktop/gunicorn.sock wsgi:app (명령어 실행시 경로가 /codestates_Project4)
 
-2. brew services start nginx
+2. brew services start nginx를
 (nginx.conf 수정시 : nginx -t 이후 brew services reload nginx)
+(nginx.conf 경로는 brew info nginx를 통해 알 수 있음)
+
+## nginx.conf
+server {
+        listen       7187       default_server;
+        listen  [::]:7187       default_server;
+        server_name  192.168.35.23;
+
+        location / {
+            #root   html;
+            #index  index.html index.htm;
+            proxy_pass http://unix:/Users/kkangjun/Desktop/gunicorn.sock;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
