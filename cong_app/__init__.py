@@ -12,7 +12,7 @@ def create_app():
   from cong_app.pages.result_page import result_bp
   
   app.register_blueprint(main_bp)
-  app.register_blueprint(result_bp, url_prefix='/result')
+  app.register_blueprint(result_bp)
 
   def maintenance_status():
     ## 점검 상태 변경 함수 ##

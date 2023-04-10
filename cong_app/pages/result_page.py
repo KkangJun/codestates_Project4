@@ -10,7 +10,7 @@ from cong_app.src.route import return_routedata
 result_bp = Blueprint('result', __name__)
 result_bp.maintenance_mode = False # 점검 상태 변수 선언
 
-@result_bp.route('/', methods=['GET', 'POST'])
+@result_bp.route('/result', methods=['GET', 'POST'])
 def first():
   '''결과페이지'''
   days = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일']
