@@ -3,6 +3,8 @@ import time
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+import keras
+import pickle
 from category_encoders import OrdinalEncoder
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from tensorflow.keras.models import Model
@@ -36,53 +38,31 @@ def st_dict():
   data = dataset[['st_name', 'st_code']].drop_duplicates()
   st_list = {}
   for name, code in zip(data['st_name'], data['st_code']):
-    try:
-      if st_list[name]:
-        temp = st_list[name]
-        del st_list[name]
-        # 원래 있던 키값 변경
-        if temp < 200:
-          st_list[name+'(1호선)'] = temp
-        elif temp < 300:
-          st_list[name+'(2호선)'] = temp
-        elif temp < 400:
-          st_list[name+'(3호선)'] = temp
-        elif temp < 2500:
-          st_list[name+'(4호선)'] = temp
-        elif temp < 2600:
-          st_list[name+'(5호선)'] = temp
-        elif temp < 2700:
-          st_list[name+'(6호선)'] = temp
-        elif temp < 2700:
-          st_list[name+'(7호선)'] = temp
-        elif temp < 2700:
-          st_list[name+'(8호선)'] = temp
-        
-        # 새로운 키 추가
-        if code < 200:
-          st_list[name+'(1호선)'] = code
-        elif code < 300:
-          st_list[name+'(2호선)'] = code
-        elif code < 400:
-          st_list[name+'(3호선)'] = code
-        elif code < 2500:
-          st_list[name+'(4호선)'] = code
-        elif code < 2600:
-          st_list[name+'(5호선)'] = code
-        elif code < 2700:
-          st_list[name+'(6호선)'] = code
-        elif code < 2700:
-          st_list[name+'(7호선)'] = code
-        elif code < 2700:
-          st_list[name+'(8호선)'] = code
-    except:
-      st_list[name] = code
+    # 새로운 키 추가
+    if code < 200:
+      st_list[name+'(1호선)'] = code
+    elif code < 300:
+      st_list[name+'(2호선)'] = code
+    elif code < 400:
+      st_list[name+'(3호선)'] = code
+    elif code < 2500:
+      st_list[name+'(4호선)'] = code
+    elif code < 2600:
+      st_list[name+'(5호선)'] = code
+    elif code < 2700:
+      st_list[name+'(6호선)'] = code
+    elif code < 2700:
+      st_list[name+'(7호선)'] = code
+    elif code < 2700:
+      st_list[name+'(8호선)'] = code
   
   return st_list
 
 def data_preprocessing(dataset):
   '''학습을 위한 데이터 전처리'''
-  dataset.drop(['id', 'number_asc', 'st_name', 'line'], axis=1, inplace=True)
+  model_path = '/Users/kkangjun/Desktop/Study/CodeStates/Project/Project4/codestates_Project4/cong_app/ai_model'
+  
+  dataset.drop(['id', 'number_asc', 'st_name'], axis=1, inplace=True)
   dataset.sort_values(['week', 'st_code', 'clss', 'time'], inplace=True)
   dataset.reset_index(drop=True, inplace=True)
   
@@ -91,23 +71,34 @@ def data_preprocessing(dataset):
   x_train = dataset.drop('congestion', axis=1)
   y_train = dataset['congestion']
   
-  return x_train, y_train
+  scaler = StandardScaler()
+  x_scaled = scaler.fit_transform(x_train)
+
+  with open(model_path + '/scaler_pickle.pkl', 'wb') as pklf:
+    pickle.dump(scaler, pklf)
+  
+  return x_scaled, y_train
 
 def make_model(x_train):
-  '''간단한 모델 제작'''
+  '''모델 제작'''
   inputs = Input(shape=(x_train.shape[1]))
   
-  layer = Dense(256, kernel_initializer='he_normal')(inputs)
+  layer = Dense(512, kernel_initializer='he_normal')(inputs)
   layer = BatchNormalization()(layer)
   layer = Activation('relu')(layer)
   layer = Dropout(0.2)(layer)
   
-  layer = Dense(128, kernel_initializer='he_normal')(inputs)
+  layer = Dense(256, kernel_initializer='he_normal')(layer)
   layer = BatchNormalization()(layer)
   layer = Activation('relu')(layer)
   layer = Dropout(0.2)(layer)
   
-  layer = Dense(64, kernel_initializer='he_normal')(inputs)
+  layer = Dense(128, kernel_initializer='he_normal')(layer)
+  layer = BatchNormalization()(layer)
+  layer = Activation('relu')(layer)
+  layer = Dropout(0.2)(layer)
+  
+  layer = Dense(64, kernel_initializer='he_normal')(layer)
   layer = BatchNormalization()(layer)
   layer = Activation('relu')(layer)
   layer = Dropout(0.2)(layer)
@@ -121,14 +112,18 @@ def make_model(x_train):
 
 def model_update():
   '''Model Update 함수'''
+  model_path = '/Users/kkangjun/Desktop/Study/CodeStates/Project/Project4/codestates_Project4/cong_app/ai_model'
   dataset = dataset_load()
   
   x_train, y_train = data_preprocessing(dataset)
   
-  model = make_model(x_train)
-  
-  model.fit(x_train, y_train, batch_size=128, epochs=30)
-  model.save('../ai_model/latest_model.h5')
+  early_stop = keras.callbacks.EarlyStopping(monitor='loss', patience=5, verbose=1)
+  save_best = keras.callbacks.ModelCheckpoint(filepath=model_path + '/latest_model.h5', monitor='loss', verbose=1,
+                                              save_best_only=True, save_weights_only=False)
+
+  model = make_model()
+
+  model.fit(x_train, y_train, batch_size=128, epochs=300, callbacks=[early_stop, save_best])
   
   print('dataset update completed')
   return

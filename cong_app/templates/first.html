@@ -1,65 +1,48 @@
 <!DOCTYPE html>
 <html>
   <head>
-    {% block head%}
       <meta charset='utf-8'>
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+      <script src="{{ url_for('static', filename='js/script.js') }}" > </script>
       <title>{% block title %}지하철 혼잡도{% endblock %}</title>
-    {% endblock%}
   </head>
   <body>
-    <h1>지하철 혼잡도 예측 (서울 1 ~ 8호선)</h1>
-    <form method='POST' action='/result', id='checkForm'>
+    <div id="left">
+      <h1>지하철 혼잡도 예측 (서울 1 ~ 8호선)</h1>
+      <form method='POST' action='/result', id='check', onsubmit="return checkform()">
+        <p class="inputs">
+          <label for="start">출발역</label>
+          <input type="text" list="start_st" name="start" required>
+          <datalist id='start_st'>
+            {% for st_name in st_name_list %}
+              <option value={{ st_name }}></option>
+            {% endfor %}
+          </datalist>
+        </p>
+        <p class="inputs">
+          <label for="end">도착역</label>
+          <input type="text" list="end_st" name="end" required>
+          <datalist id='end_st'>
+            {% for st_name in st_name_list %}
+              <option value={{ st_name }}></option>
+            {% endfor %}
+          </datalist>
+        </p>
+        <p class="inputs">
+          <label for="date">출발 날짜와 시간</label>
+          <input type='datetime-local' name="date" required>
+        </p>
+        <button id="rst">혼잡도 확인하기</button><br>
+      </form>
       <p>
-        <label for="start">출발역</label>
-        <input type="text" list="start_st" name="start" required>
-        <datalist id='start_st'>
-          {% for st_name in st_name_list %}
-            <option value={{ st_name }}></option>
-          {% endfor %}
-        </datalist>
+        <button id="dash" type="button" onclick="window.open('https://public.tableau.com/app/profile/.88606709/viz/train_dashb/1?publish=yes')">
+          DASHBOARD 확인
+        </button>
       </p>
-      <p>
-        <label for="end">도착역</label>
-        <input type="text" list="end_st" name="end" required>
-        <datalist id='end_st'>
-          {% for st_name in st_name_list %}
-            <option value={{ st_name }}></option>
-          {% endfor %}
-        </datalist>
-      </p>
-      <p>
-        <label for="date">출발 날짜와 시간</label>
-        <input type='datetime-local' name="date" required>
-      </p>
-      <button type="submit" onclick="return checkForm()">혼잡도 확인하기</button><br>
-    </form>
-    <script>
-      var start = document.forms['checkFrom']['start'].value;
-      var end = document.forms['checkFrom']['end'].value;
-      var date = document.forms['checkFrom']['date'].value;
-      var st_list = document.getElementById("start_st").options; // start와 end의 list는 같음
-      var start_match = false
-      var end_match = false
-
-      for (var i = 0; i<st_list.length; i++) {
-        if (st_list.value == start) {
-          start_match = true;
-        } else if (st_list.value == end) {
-          end_match = true;
-        }
-
-        if (start_match == true && end_match == true) {
-          break;
-        }
-      }
-
-      if (!start_match || !end_match || date=="") {
-        alert("올바른 값을 입력해주세요!\n(참고: 데이터에 없는 역이 있을 수 있습니다.)");
-        return false;
-      }
-      
-    </script>
-    {% block results %}
-    {% endblock %}
+    </div>
+    <div id="rigth">
+      {% block results %}
+      {% endblock %}
+    </div>
   </body>
 </html>

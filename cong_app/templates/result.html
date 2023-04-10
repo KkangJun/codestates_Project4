@@ -1,26 +1,31 @@
 {% extends 'first.html' %}
-{% block title %}예측 결과{% endblock %}
-
-{% block head%}
-  {{ super() }}
-{% endblock%}
+{% block title %}예측 결과 - 지하철 혼잡도{% endblock %}
 
 {% block results %}
-  <br><br><br>
-  <h2>{{ week }} 경로 혼잡도 예측 결과</h2>
-  {% for row in preds%}
-    <p>
-      {{ row['name'] }}<br>
-      {{ row['line'] }}호선<br>
-      {{ row['time'] }}
-    </p>
-    <p>
-      혼잡도 : {{ row['pred'] }}
-    </p>
-  {% endfor %}
-  <p>
-    {{ last_st['name'] }}<br>
-    {{ last_st['line'] }}호선<br>
-    {{ last_st['time'] }}
-  </p>
+    <h2>{{ week }} 경로 혼잡도 예측 결과</h2>
+    {% for row in preds%}
+      <div class="st_info">
+        {{ row['name'] }}<br>
+        {{ row['line'] }}호선<br>
+        {{ row['time'] }}
+      </div>
+      <p class="congestion">
+        &#8226; 혼잡도 &#8226;<br>
+        {% if row['pred'] < 40  %}
+          <a class="low">{{ row['pred'] }}</a><br>
+          &#60; 앉을 자리가 있을지도 모르겠네요!! &#62;
+        {% elif row['pred'] < 60 %}
+          <a class="medium">{{ row['pred'] }}</a><br>
+        {% elif row['pred'] < 80 %}
+          <a class="high">{{ row['pred'] }}</a><br>
+        {% else %}
+          <a class="veryhigh">{{ row['pred'] }}</a><br>
+        {% endif %}
+      </p>
+    {% endfor %}
+    <div class="st_info">
+      {{ last_st['name'] }}<br>
+      {{ last_st['line'] }}호선<br>
+      {{ last_st['time'] }}
+    </div>
 {% endblock %}

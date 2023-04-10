@@ -1,0 +1,104 @@
+body{
+  background-image: url(https://png.pngtree.com/background/20210709/original/pngtree-fresh-hand-drawn-subway-background-design-picture-image_954879.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.inputs{
+  font-size: 20px;
+}
+
+.st_info{
+  background-color: rgb(255, 255, 255);
+  width: 100px;
+  height: 100px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin: auto;
+}
+
+.congestion{
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.low{
+  background-color: rgb(77, 255, 64);
+  font-size: 20px;
+  font-weight: bold;
+}
+.medium{
+  background-color: rgb(255, 255, 64);
+  font-size: 20px;
+  font-weight: bold;
+}
+.high{
+  background-color: rgb(255, 179, 64);
+  font-size: 20px;
+  font-weight: bold;
+}
+.veryhigh{
+  background-color: rgb(255, 89, 64);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#left{
+  width: 35%;
+  height: 350px;
+  background-color: #90EE90;
+  background-color: rgba( 200, 255, 200, 0.7 );
+  border-radius: 50px 50px 150px 150px / 100px 100px 200px 200px;
+  float: left;
+  margin: 10%;
+  text-align: center;
+  font-weight: bold;
+}
+
+#rigth{
+  width: 35%;
+  background-color: #90EE90;
+  background-color: rgba( 200, 255, 200, 0.7 );
+  border-radius: 30%;
+  float: left;
+  text-align: center;
+}
+
+#rst{
+  background-color: #e2ffe3;
+  font-size:20px;
+  font-weight: bolder;
+  padding:10px 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px #999;
+}
+#rst:active {
+
+  background-color: #89968a;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+
+}
+
+#dash{
+  background-color: #e2ffe3;
+  font-size:20px;
+  font-weight: bolder;
+  padding:10px 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px #999;
+}
+#dash:active {
+
+  background-color: #89968a;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+
+}

@@ -58,7 +58,7 @@ def return_routedata(start, end, week, tim):
       if row['transfer_loc'] != None:
         continue
       
-      predlist.append([w[1], int(row['station_cd']), clss_list[i], int(tim)])
+      predlist.append([w[1], int(row['line_num']), int(row['station_cd']), clss_list[i], int(tim)])
       i = i+1
     
     return [row for row in raw if row['transfer_loc'] == None], predlist

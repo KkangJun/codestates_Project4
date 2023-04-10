@@ -1,12 +1,7 @@
 {% extends 'first.html' %}
-{% block title %}예측 결과{% endblock %}
-
-{% block head%}
-  {{ super() }}
-{% endblock%}
+{% block title %}예측 결과 - 지하철 혼잡도{% endblock %}
 
 {% block results %}
-  <br><br><br>
-  <h2>죄송합니다! 현재 API에서 찾으시는 역의 데이터를 불러올 수 없습니다...</h2><br>
-  <h3>역 리스트에 존재하는데 안되는 경우에는 호선을 확인해주세요!</h3>
+    <h2>죄송합니다! 현재 API에서 찾으시는 역의 데이터를 불러올 수 없습니다...</h2><br>
+    <h3>역 리스트에 존재하는데 안되는 경우에는 호선을 확인해주세요!</h3>
 {% endblock %}

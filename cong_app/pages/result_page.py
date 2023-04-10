@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import pickle
 from flask import Blueprint, request, render_template
 from tensorflow.keras.models import load_model
 from datetime import datetime
@@ -13,7 +14,12 @@ result_bp.maintenance_mode = False # 점검 상태 변수 선언
 def first():
   '''결과페이지'''
   days = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일']
+  
   model = load_model('cong_app/ai_model/latest_model.h5')
+  scaler = None
+  with open('cong_app/ai_model/scaler_pickle.pkl', 'rb') as pklf:
+    scaler = pickle.load(pklf)
+
   st = st_dict()
   preds = []
   # 예측 데이터 format : np.array([[week, st_code, clss, time]])
@@ -32,9 +38,10 @@ def first():
       return render_template('error.html', st_name_list=list(st))
     
     for i, row in enumerate(preddata):
-      pred = (model.predict(np.array([row])))
+      row_scaled = scaler.transform(np.array([row]))
+      pred = (model.predict(row_scaled))
       timestamp = org_data[i]['timestamp'][:2] + ':' + org_data[i]['timestamp'][2:4]
-      preds.append({'line': org_data[i]['line_num'], 'name': org_data[i]['station_nm'], 'time': timestamp, 'pred': round(pred[0][0], 1)})
+      preds.append({'line': org_data[i]['line_num'], 'name': org_data[i]['station_nm'], 'time': timestamp, 'pred': round(pred[0][0], 2)})
     
     last_st = {'line': org_data[-1]['line_num'], 'name': org_data[-1]['station_nm'], 'time': org_data[-1]['timestamp'][:2] + ':' + org_data[-1]['timestamp'][2:4]}
   # if current_app.config.get('MAINTENANCE_MODE') or result_bp.maintenance_mode:
