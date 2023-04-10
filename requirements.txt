@@ -1,4 +1,4 @@
-# tensorflow # mac m1을 사용하고 있어서 다른 가상환경에 설치된 tensorflow를 사용 (이 txt파일을 통해 설치하지는 않음)
+tensorflow # mac m1을 사용하고 있어서 다른 가상환경에 설치된 tensorflow를 사용 (이 txt파일을 통해 설치하지는 않음)
 requests
 beautifulsoup4
 flask
@@ -10,3 +10,4 @@ scikit-learn
 category-encoders
 xgboost
 pandas
+uwsgi
