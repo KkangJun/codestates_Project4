@@ -50,14 +50,29 @@ body{
   font-weight: bold;
 }
 
+.but{
+  background-color: #e2ffe3;
+  font-size:20px;
+  font-weight: bolder;
+  padding:10px 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px #999;
+}
+.but:active {
+
+  background-color: #89968a;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
 #left{
   width: 35%;
-  height: 350px;
+  height: 400px;
   background-color: #90EE90;
   background-color: rgba( 200, 255, 200, 0.7 );
   border-radius: 50px 50px 150px 150px / 100px 100px 200px 200px;
   float: left;
-  margin: 10%;
+  margin: 7%;
   text-align: center;
   font-weight: bold;
 }
@@ -69,36 +84,4 @@ body{
   border-radius: 30%;
   float: left;
   text-align: center;
-}
-
-#rst{
-  background-color: #e2ffe3;
-  font-size:20px;
-  font-weight: bolder;
-  padding:10px 30px;
-  border-radius: 10px;
-  box-shadow: 0 5px #999;
-}
-#rst:active {
-
-  background-color: #89968a;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-
-}
-
-#dash{
-  background-color: #e2ffe3;
-  font-size:20px;
-  font-weight: bolder;
-  padding:10px 30px;
-  border-radius: 10px;
-  box-shadow: 0 5px #999;
-}
-#dash:active {
-
-  background-color: #89968a;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-
 }
