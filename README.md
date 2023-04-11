@@ -19,7 +19,7 @@
 - PostgreSQL (로컬 서버 DB)
 - Tableau-Desktop (Dashboard 툴)
 - VScode
-5. WAS Pipeline
+5. WEB Serving Pipeline
 - Flask
 - Gunicorn
-- nginx
+- NginX (Port Forwarding)
