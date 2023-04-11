@@ -10,4 +10,4 @@ scikit-learn
 category-encoders
 xgboost
 pandas
-uwsgi
+gunicorn
