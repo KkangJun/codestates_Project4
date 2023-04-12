@@ -60,7 +60,7 @@ def st_dict():
 
 def data_preprocessing(dataset):
   '''학습을 위한 데이터 전처리'''
-  model_path = '../ai_model'
+  model_path = 'cong_app/ai_model'
   
   dataset.drop(['id', 'number_asc', 'st_name'], axis=1, inplace=True)
   dataset.sort_values(['week', 'st_code', 'clss', 'time'], inplace=True)
@@ -112,7 +112,7 @@ def make_model(x_train):
 
 def model_update():
   '''Model Update 함수'''
-  model_path = '../ai_model'
+  model_path = 'cong_app/ai_model'
   dataset = dataset_load()
   
   x_train, y_train = data_preprocessing(dataset)
